@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy, BaseQuery
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash
 
 # 实例化app
 appm = Flask(__name__)
-appm.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:177036@127.0.0.1:3306/shop"
+appm.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqlconnector://root:111111@127.0.0.1:3306/shop"
 appm.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(appm)

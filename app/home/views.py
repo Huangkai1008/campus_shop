@@ -10,14 +10,13 @@ from werkzeug.security import generate_password_hash
 from decimal import Decimal, ROUND_CEILING
 
 from app import db, config
-from sqlalchemy import desc
 
 from home.forms import RegisterForm, LoginForm, UserForm, PasswordForm
 
 from app.models import User, AdminUser, Userlog, Product, Tag, Order, OrderInfo, Cart, CartInfo, Comment
 
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])  # 上传通过检查
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}  # 上传通过检查
 
 """
     工具类型函数
@@ -94,7 +93,7 @@ def login():
 @home.route('/pay/', methods=['GET', 'POST'])
 def pay():
     order_id = request.form['order_id']
-    order_subTotal = request.form['order_subTotal']
+    order_sub_total = request.form['order_sub_total']
     order = Order.query.filter(Order.id == order_id).first()
     order.status = 1
     db.session.commit()
@@ -104,7 +103,7 @@ def pay():
         product.stock = product.stock - orderinfo.quantity
         product.sell = product.sell + orderinfo.quantity
         db.session.commit()
-    return render_template('home/pay.html', order_id=order_id, order_subTotal=order_subTotal)
+    return render_template('home/pay.html', order_id=order_id, order_subTotal=order_sub_total)
 
 
 @home.route('/pay_to/', methods=['GET', 'POST'])
@@ -269,7 +268,7 @@ def index():
         # discount.sale_price = discount.price * discount.discount * 0.1
         discount.true_price = Decimal(discount.price * discount.discount * 0.1).quantize(Decimal('0.00'), ROUND_CEILING)
         # db.session.commit()
-    one_dollers = Product.query.filter(Product.isKilled == True).all()
+    one_dollers = Product.query.filter(Product.isKilled is True).all()
     return render_template("home/index.html", tags=tags, total=total, discounts=discounts, one_dollers=one_dollers)
 
 

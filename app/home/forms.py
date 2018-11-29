@@ -60,7 +60,7 @@ class RegisterForm(FlaskForm):
         }
     )
 
-    repassword = PasswordField(
+    re_password = PasswordField(
         label="确认密码",
         validators=[
             DataRequired("请输入确认密码"),
